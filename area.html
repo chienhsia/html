@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<title>台中市區美食通</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+	
+	<!-- Owl Stylesheets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css">
+
+    <!-- javascript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>
+  
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<!-- Compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+	<!-- CSS  -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	
+	
+    <!-- 利用Google Visualization讀取Google Sheet https://www.labnol.org/code/google-sheet-d3js-visualization-200608 -->
+    
+	<script src="https://www.gstatic.com/charts/loader.js"></script>
+	
+	<script>
+	
+		// 取得網址裡的參數 
+	function GetUrlVar(VarName) {
+		VarName = VarName.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+		var regexS = "[\\?&]" + VarName + "=([^&#]*)";
+		var regex = new RegExp(regexS);
+		var results = regex.exec(window.location.href);
+		if (results == null)
+			return " ";
+		else
+			return results[1];}
+
+
+
+		// https://developers.google.com/chart/interactive/docs/quick_start
+		// Load the Visualization API and the corechart package.
+		google.charts.load('current', {'packages':['corechart']});
+		// Set a callback to run when the Google Visualization API is loaded.	
+		google.charts.setOnLoadCallback(init);
+
+
+	function init() {
+	  // 要先取得網址裡的路徑起點終點經緯度參數 
+	  var n = decodeURIComponent(GetUrlVar('id'));
+	  var queryStr = "select * where A =" + n;	
+
+	  // 這個例子使用的試算表是 https://docs.google.com/spreadsheets/d/1QScI5d56Kh-LGywY4WR6EvRGPcalFQYUAdqMxbFVDvk/copy
+	  // 將上述試算表另存副本後，你要在自己的雲端硬碟將該試算表設定成[知道連結的使用者都能查看]。
+	  // 然後讓程式讀取 https://docs.google.com/spreadsheets/d/瀏覽器網址列上的網址擷取序號部分/gviz/tq?sheet=工作表名稱
+	  // 也就是將下列的 1QScI5d56Kh-LGywY4WR6EvRGPcalFQYUAdqMxbFVDvk 更換成自己的檔案序號，以及最後部分指讀取哪個工作表。
+	  var url =
+		'https://docs.google.com/spreadsheets/d/1DAyqDgFIKtOWo4CT20-LrfNdc86O4kYv6qINiqEJpiQ/gviz/tq?sheet=地區';
+	  var query = new google.visualization.Query(url);
+	  query.setQuery(queryStr);
+	  query.send(processSheetsData);
+	}	
+	
+function processSheetsData(response) {
+    var data = response.getDataTable();
+    var columns = data.getNumberOfColumns();
+    var rows = data.getNumberOfRows();
+
+    for (var r = 0; r < rows; r++) {
+        var str = "";
+        // Display value at (r, 1) on a separate line and centered
+        str += `<div class="col s12 m12 center-align">
+                    <h3>${data.getFormattedValue(r, 1)}</h3><br>
+                </div>`;
+
+        for (var c = 2; c <= 21; c += 2) {
+            // Increment counter for numbering
+            var counter = c / 2;
+
+            // Display text in even-numbered columns with numbering
+            str += `<div class="col s12 m6">
+                        <h3>${counter}. ${data.getFormattedValue(r, c)}</h3><br>
+                    </div>`;
+
+            // Display images in card format from odd-numbered columns
+            str += `<div class="col s12 m6">
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="${data.getFormattedValue(r, c + 1)}" alt="Image" width="600" length="500">
+                            </div>
+                        </div>
+                    </div>`;
+        }
+
+        var areaId = "area" + r;
+        document.getElementById(areaId).innerHTML = `<div class="row">${str}</div>`;
+    }
+}
+
+
+
+
+		
+	</script>	
+  </head>
+
+  <body>
+  
+  <div class ="navbar-fixed">
+	<nav class="indigo darken-4 " role="navigation">
+    <div class="nav-wrapper container">
+      <a href="home.html" class="brand-logo left">台中市區美食通</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+	  <div class="fixed-top text-center w-100">
+        <li><a href="#1">中區</a></li>
+        <li><a href="#2">東區</a></li>
+        <li><a href="#3">西區</a></li>
+		<li><a href="#4">南區</a></li>
+		<li><a href="#5">北區</a></li>
+		<li><a href="#6">北屯</a></li>
+		<li><a href="#7">西屯</a></li>
+		<li><a href="#8">南屯</a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+
+	  
+<!-- 中區美食 -->
+  <div class="row"> </div> 
+  <div class="col s12 m4 l6">
+  <div id="1" class="tab-content center">
+	<div id="area0"></div>
+  </div>
+  	<iframe src="https://www.google.com/maps/d/embed?mid=1m8_a5mhDFVS1_Mu9ZD_64vHt8N9k-vo&ehbc=2E312F&noprof=1"
+  width="600"
+  height="450"
+  style="border:0;"
+  allowfullscreen=""
+  loading="lazy"
+  referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+<!-- 東區美食 -->
+  <div class="row"> </div> 
+  <div class="col s12 m4 l6">
+  <div id="2" class="tab-content center">
+	<div id="area1"></div>
+	</div>
+<iframe src="https://www.google.com/maps/d/embed?mid=1pcWrPOaW6jeb-L4OR26b8Rwq7Q8EtL8&ehbc=2E312F&noprof=1"
+  width="600"
+  height="450"
+  style="border:0;"
+  allowfullscreen=""
+  loading="lazy"
+  referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+
+<!-- 西區美食 -->
+  <div class="row"> </div> 
+  <div class="col s12 m4 l6">
+<div id="3" class="tab-content center">
+	<div id="area2"></div>
+</div>
+<iframe src="https://www.google.com/maps/d/embed?mid=1tG0M1SMKVklSZEoKsGdTN-U8BT7eAK8&ehbc=2E312F&noprof=1"
+  width="600"
+  height="450"
+  style="border:0;"
+  allowfullscreen=""
+  loading="lazy"
+  referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+<!-- 南區美食 -->
+  <div class="row"> </div> 
+  <div class="col s12 m4 l6">
+<div id="4" class="tab-content center">
+	<div id="area3"></div>
+</div>
+<iframe src="https://www.google.com/maps/d/embed?mid=1NKHdomQJq1gVxalAnZfE4HGEcqaJZ2c&ehbc=2E312F&noprof=1"
+  width="600"
+  height="450"
+  style="border:0;"
+  allowfullscreen=""
+  loading="lazy"
+  referrerpolicy="no-referrer-when-downgrade"></iframe>
+<!-- 北區美食 -->
+  <div class="row"> </div> 
+  <div class="col s12 m4 l6">
+<div id="5" class="tab-content center">
+	<div id="area4"></div>
+
+</div>
+<iframe src="https://www.google.com/maps/d/embed?mid=1HC9ydksEmEP3cJQiG6ym22AaAjjCBak&ehbc=2E312F&noprof=1"
+  width="600"
+  height="450"
+  style="border:0;"
+  allowfullscreen=""
+  loading="lazy"
+  referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+<!-- 北屯美食 -->
+  <div class="row"> </div> 
+  <div class="col s12 m4 l6" >
+<div id="6" class="tab-content center">
+	<div id="area5"></div>
+
+</div>
+<iframe src="https://www.google.com/maps/d/embed?mid=1_OTX8IyaeBPqZMzn9qhWABfp-Ixexxs&ehbc=2E312F&noprof=1"
+  width="600"
+  height="450"
+  style="border:0;"
+  allowfullscreen=""
+  loading="lazy"
+  referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+<!-- 西屯美食 -->
+  <div class="row"> </div> 
+  <div class="col s12 m4 l6">
+<div id="7" class="tab-content center">
+	<div id="area6"></div>
+
+</div>
+<iframe src="https://www.google.com/maps/d/embed?mid=1zzL1Im4s6kNiB1AzEAnkRQzyTazR6xg&ehbc=2E312F&noprof=1"
+  width="600"
+  height="450"
+  style="border:0;"
+  allowfullscreen=""
+  loading="lazy"
+  referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+<!--  南屯美食 -->
+  <div class="row"> </div> 
+  <div class="col s12 m4 l6">
+<div id="8" class="tab-content center">
+	<div id="area7"></div>
+
+</div>
+<iframe src="https://www.google.com/maps/d/embed?mid=1yEq8cdCLAI2loOIaGNlzEK78zv48unM&ehbc=2E312F&noprof=1"
+  width="600"
+  height="450"
+  style="border:0;"
+  allowfullscreen=""
+  loading="lazy"
+  referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+
+ <!--  Scripts-->
+
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+<!-- 將其放在body的末尾，或包裹在窗口加載事件中 -->
+<script>
+    $(document).ready(function(){
+        $('.parallax').parallax();
+        $('.sidenav').sidenav();
+        $('.materialboxed').materialbox();
+        $('.collapsible').collapsible();
+    });
+</script>
+
+
+  </body>
+
+</html>

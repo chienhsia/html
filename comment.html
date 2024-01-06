@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+	<title>台中市區美食通</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+	
+	<!-- Owl Stylesheets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css">
+
+    <!-- javascript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>
+  
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<!-- Compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+	<!-- CSS  -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	
+	<!-- Google 表單 -->
+	<script src="https://www.gstatic.com/charts/loader.js"></script>
+
+	<script>
+    google.charts.load('current', {'packages':['corechart']});
+
+    google.charts.setOnLoadCallback(init);
+
+    function init() {
+      var url = 'https://docs.google.com/spreadsheets/d/1fzZxpTmV5jJEf1nsVmszFvM7o9SJ3u2bhkEhOB5_1HU/gviz/tq?sheet=表單回應1';
+      var query = new google.visualization.Query(url);
+      query.setQuery("select * ");
+      query.send(processSheetsData);
+    }  
+
+    function processSheetsData(response) {
+      var data = response.getDataTable();
+      var columns = data.getNumberOfColumns();
+      var rows = data.getNumberOfRows();
+      var str = "";
+      for (r = rows - 1; r >= 0; r-- ){
+        str = str + `<div class="card" align="center">
+                    <div class="card-body">
+                        推薦餐廳：${data.getFormattedValue(r,1)} 推薦理由：${data.getFormattedValue(r,2)}
+                    </div>
+                </div>`;
+      }
+      document.getElementById("demo").innerHTML = str;
+    }
+  </script>
+</head>
+
+<body>
+  <div class ="navbar-fixed">
+	<nav class="indigo darken-4 " role="navigation">
+    <div class="nav-wrapper container">
+      <a href="home.html" class="brand-logo left">台中市區美食通</a>
+	     </div>
+  </nav>
+</div>
+
+<div id="index-banner" class="parallax-container">
+  <div class="section no-pad-bot">
+    <div class="container">
+      <div style="position: relative;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Taichung_skyline.png" width="1200" height="600" class="responsive-img" style="position: absolute; left: 0; top: -5px; width: 100%; height: auto; z-index: -1;">
+        <h1 class="header center-align grey-text text-darken-3" style="position: relative; top: 50px; z-index: 1;">老饕留言板</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+  <div id="demo"></div>
+  
+</body>
+
+</html>

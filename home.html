@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>台中市區美食通</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+ 
+
+
+    <!-- Owl Stylesheets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css">
+
+
+    <!-- javascript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>
+ 
+
+
+    <!--  Demos -->
+	<div id="demo"></div>
+	
+	<!-- Google Forms -->
+	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript">
+	function formresponse() {
+		var m = document.forms["form1"]["name"].value;
+		var d = document.forms["form1"]["feedback"].value;
+		if (m==null || m=="")
+		   {
+			alert("餐廳名稱不可為空白!");
+			return false;
+		   }
+		else if (d==null || d=="")
+		   {
+			alert("意見與評鑑不可為空白!");
+			return false;
+		   }
+		else
+		   {
+			var MySubmit = "https://docs.google.com/forms/d/e/1FAIpQLSfl97FlZuI-xDEsVdtnvfPuYaPi4IEb3NMWfMCOY3QmsU0ytA/formResponse?entry.1339825257=" + m + "&entry.156035097=" + d + "&submit=Submit";
+			$("#formresponse").html(unescape("%3Cscript type='text/javascript' src='" + MySubmit + "'%3E%3C/script%3E"));
+			alert("以收到您的回覆");
+		   }
+	}
+	</script>
+	
+	<!--google 試算表-->
+	<script src="https://www.gstatic.com/charts/loader.js"></script>
+	
+	<script>
+	
+    // https://developers.google.com/chart/interactive/docs/quick_start
+	// Load the Visualization API and the corechart package.
+    google.charts.load('current', {'packages':['corechart']});
+
+    // Set a callback to run when the Google Visualization API is loaded.	
+	google.charts.setOnLoadCallback(init);
+
+	function init() {
+	  // 這個例子使用的試算表是 https://docs.google.com/spreadsheets/d/1QScI5d56Kh-LGywY4WR6EvRGPcalFQYUAdqMxbFVDvk/copy
+	  // 將上述試算表另存副本後，你要在自己的雲端硬碟將該試算表設定成[知道連結的使用者都能查看]。
+	  // 然後讓程式讀取 https://docs.google.com/spreadsheets/d/瀏覽器網址列上的網址擷取序號部分/gviz/tq?sheet=工作表名稱
+	  // 也就是將下列的 1QScI5d56Kh-LGywY4WR6EvRGPcalFQYUAdqMxbFVDvk 更換成自己的檔案序號，以及最後部分指讀取哪個工作表。
+	  var url =
+		'https://docs.google.com/spreadsheets/d/1DAyqDgFIKtOWo4CT20-LrfNdc86O4kYv6qINiqEJpiQ/gviz/tq?sheet=類別';
+	  var query = new google.visualization.Query(url);
+	  query.setQuery("select * ");
+	  query.send(processSheetsData);
+	}	
+	
+	function processSheetsData(response) {
+	  var data = response.getDataTable();
+	  var columns = data.getNumberOfColumns();
+	  var rows = data.getNumberOfRows();
+
+	  var str = "";
+	  for (var r=0 ; r<rows ; r++) {
+			s=s+ `<div class="container">
+					<div class="col s12 m6 l3">
+						<div class="card">
+							<div class="card-image">
+								<img src="${data.getFormattedValue(r,4)}" >
+							</div>
+							<div class="card-action">
+								<a href="
+		  <a href="subpage.html?id=${data.getFormattedValue(r,0)}"> 
+		  <img src="${data.getFormattedValue(r,1)}" class="img-fluid projects-image" alt="">
+	  }
+	  document.getElementById("demo").innerHTML = str;
+	}
+	</script>
+	
+	<style>
+  .row-equal-height {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .row-equal-height .card {
+    flex: 1;
+    margin-bottom: 15px; 
+  }
+</style>
+	<style>
+	  .btn.indigo.darken-4,
+	  .btn.indigo.darken-4:active {
+		background-color: indigo darken-4; 
+		color: white;
+	  }
+	</style>
+
+</head>
+
+
+<body>
+<div class ="navbar-fixed">
+	<nav class="indigo darken-4 " role="navigation">
+    <div class="nav-wrapper container">
+      <a href="#" class="brand-logo left">台中市區美食通</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+	  <div class="fixed-top text-center w-100">
+        <li><a href="#home">找地區</a></li>
+        <li><a href="#about">找類別</a></li>
+        <li><a href="#shop">老饕真心推薦</a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+
+<div id="index-banner" class="parallax-container">
+  <div class="section no-pad-bot">
+    <div class="container">
+      <br><br>
+      <div style="position: relative;">
+        <img src="https://travel.taichung.gov.tw/content/images/global/area-all.jpg" width="1200" height="600" class="responsive-img" style="position: absolute; left: 0; top: -10px; width: 100%; height: auto; z-index: -1;">
+        <br><br><br><br>
+		<h1 class="header center grey-text text-darken-3" style="position: relative;">台中市美食吃不完!?</h1>
+      </div>
+      <div class="row center">
+        <h5 class="header col s12 light">集結美食與地圖、各地老饕真心推薦</h5>
+      </div>
+      <br><br>
+    </div>
+  </div>
+</div>
+
+   
+
+<!--   地區   -->
+<div class="container">
+<div class="col s12 m4 l6" id="home"><i class="material-icons"><span class="material-symbols-outlined">my_location</span></i><font size="4"> 找地區：點選所在區域找尋想要的美食</font>
+ <div class="row"><br>
+    <!--中-->
+    <div class="col s12 m6 l3">
+      <div class="card"  style="row-equal-height;row-equal-weight ">
+        <div class="card-image">
+          <img src="https://drive.google.com/uc?export=view&id=1XjBXPqGY2zoTDEKsTc6H76nWedoMuUXI">
+        </div>
+        <div class="card-action">
+          <a href="area.html?id=1">Central district</a>
+        </div>
+      </div>
+    </div>
+
+    <!--東-->
+    <div class="col s12 m6 l3">
+      <div class="card"  style="row-equal-height;row-equal-weight ">
+        <div class="card-image">
+          <img src="https://drive.google.com/uc?export=view&id=1ha9SzRKpF7Vo8wGxlLUqqkOlCzsWv428">
+        </div>
+        <div class="card-action">
+          <a href="area.html?id=2">East district</a>
+        </div>
+      </div>
+    </div>
+
+    <!--西-->
+    <div class="col s12 m6 l3">
+      <div class="card"  style="row-equal-height;row-equal-weight ">
+        <div class="card-image">
+          <img src="https://drive.google.com/uc?export=view&id=1Px4H5GTNJLLyhAHNsK8OWpGS17bM_isl">
+        </div>
+        <div class="card-action">
+          <a href="area.html?id=3">West district</a>
+        </div>
+      </div>
+    </div>
+
+    <!--南-->
+    <div class="col s12 m6 l3">
+      <div class="card"  style="row-equal-height;row-equal-weight ">
+        <div class="card-image">
+          <img src="https://drive.google.com/uc?export=view&id=1vQddRGpsuszxNfAnF5XFxbhNrTFKuR3f">
+        </div>
+        <div class="card-action">
+          <a href="area.html?id=4">South district</a>
+        </div>
+      </div>
+    </div>
+	
+  <div class="row">
+	<!--北-->
+	<div class="col s12 m6 l3">
+      <div class="card"  style="row-equal-height;row-equal-weight ">
+        <div class="card-image">
+          <img src="https://drive.google.com/uc?export=view&id=1QBYu-6G3hbFYchRxHyYjvncNGymz2vuf">
+        </div>
+        <div class="card-action">
+          <a href="area.html?id=5">North district</a>
+        </div>
+      </div>
+    </div>
+
+  <!--北屯--> 
+    <div class="col s12 m6 l3">
+      <div class="card "  style="row-equal-height;row-equal-weight ">
+        <div class="card-image">
+          <img src="https://drive.google.com/uc?export=view&id=1VyJl9B7GdEQYD2j4Xxmcnxy73xYg1vD_">
+        </div>
+        <div class="card-action">
+          <a href="area.html?id=6">Beitun district</a>
+        </div>
+      </div>
+    </div>
+   <!--西屯-->
+    <div class="col s12 m6 l3">
+      <div class="card"  style="row-equal-height;row-equal-weight ">
+        <div class="card-image">
+          <img src="https://drive.google.com/uc?export=view&id=1xg4oNVt4WimjDeI5Dpb8E35EDP7_PNMP">
+        </div>
+        <div class="card-action">
+          <a href="area.html?id=7">Xitun district</a>
+        </div>
+      </div>
+    </div>
+     <!--南屯-->
+    <div class="col s12 m6 l3">
+      <div class="card"  style="row-equal-height;row-equal-weight ">
+        <div class="card-image">
+          <img src="https://drive.google.com/uc?export=view&id=1tWetVMtjGCjM9HoE6qX9cvAYxD_XH_4j">
+        </div>
+        <div class="card-action">
+          <a href="area.html?id=8">Nantun district</a>
+        </div>
+      </div>
+    </div>
+  </div>
+ </div>
+</div>
+
+
+<!--類別-->
+
+<div class="col s12 m4 l6" id="about"><i class="material-icons"><span class="material-symbols-outlined">category</span></i><font size="4"> 找類別：集結各種類別美食，搜尋想吃的美食類別</font><br>
+	<br>
+	<img src="https://drive.google.com/uc?export=view&id=1FFH_Z4bVPc2cme1DOtY1rUL2fkoM4mk2" width="900" height="600">
+	<br><br>
+	<a class="waves-effect waves-light btn indigo darken-4" href="category.html?id=1" style ="margin-left: 7px; border-radius: 6px">中式料理</a>
+
+	<a class="waves-effect waves-light btn indigo darken-4" href="category.html?id=2" style ="margin-left: 15px; border-radius: 6px">西式料理</a>
+	
+	<a class="waves-effect waves-light btn indigo darken-4" href="category.html?id=3" style ="margin-left: 15px; border-radius: 6px">日式料理</a>
+	
+	<a class="waves-effect waves-light btn indigo darken-4" href="category.html?id=4" style ="margin-left: 15px; border-radius: 6px;">韓式料理</a>
+	
+	<a class="waves-effect waves-light btn indigo darken-4" href="category.html?id=5" style="margin-left: 15px;border-radius: 6px">泰式料理</a>
+	
+	<a class="waves-effect waves-light btn indigo darken-4" href="category.html?id=6" style ="margin-left: 15px; border-radius: 6px;" >印度料理</a>
+	
+	<a class="waves-effect waves-light btn indigo darken-4" href="category.html?id=7" style ="margin-left: 15px; border-radius: 6px;">早餐</a>
+	
+	<a class="waves-effect waves-light btn indigo darken-4" href="category.html?id=8" style ="margin-left: 15px; border-radius: 6px;">甜點</a>
+	
+	<a class="waves-effect waves-light btn indigo darken-4" href="category.html?id=9" style ="margin-left: 15px; border-radius: 6px;">宵夜</a>
+	
+	
+
+</div>
+<br><br>
+<!--推薦-->
+
+<div class="col s12 m4 l6" id="shop"><i class="material-icons"><span class="material-symbols-outlined">recommend</span></i><font size="4"> 老饕真心推薦：查看其他人心中的美食餐廳，留下你必推的美食與評鑑</font><br>
+<br>
+	<span id="formresponse"></span>
+	<form name="form1" action="javascript:formresponse();" autocomplete="off">
+		<div data-role="fieldcontain">
+			<label for="name">餐廳名稱(如有分店請註明哪間分店)：</label><input type="text" name="name" autocomplete="off">
+		</div>
+		<div data-role="fieldcontain">
+			<label for="name">意見與評鑑：</label><input type="text" name="feedback" autocomplete="off">
+		</div>
+		<input type="submit" value="提交評論">
+		<a class="waves-effect waves-light btn brown lighten-4 right" href="comment.html">點我看他人推薦</a>
+	</form>
+</div>
+	
+ <!--  Scripts-->
+
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+	<script>
+	  $(document).ready(function(){
+		$('.parallax').parallax();
+		$('.sidenav').sidenav();
+		$('.materialboxed').materialbox();
+		$('.collapsible').collapsible();
+	  });
+	 </script> 
+  </body>
+</html>
